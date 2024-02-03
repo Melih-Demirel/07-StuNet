@@ -1,4 +1,4 @@
-# **StuNet**
+# **StuNet** 
 StuNet = Mix of Discord and BlackBoard
 # Install
 Make sure you have docker, docker compose, java v8, dotnet and nodejs installed
