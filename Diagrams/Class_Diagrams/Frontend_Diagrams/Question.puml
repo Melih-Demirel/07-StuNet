@@ -1,0 +1,92 @@
+@startuml Question
+left to right direction
+
+class Question
+class Answer
+
+class QuestionScreen {
+	-subscribed: number | null
+	-question: Question
+	-answers : Answer[]
+	-error: string
+
+	-info(): Promise
+	-questions(): Promise
+	-subscription(): Promise
+	-fetch(): Promise
+
+	-setSubscribed(): void
+	-setQuestion(): void
+	-setAnswers(): void
+	-setError(): void
+}
+
+Question --* QuestionScreen: question
+Answer --* QuestionScreen: answers
+
+class QuestionsScreen {
+	-questions: Question[]
+	-actives: number[]
+	-refresh: boolean
+	-error: string
+
+	-display(): boolean
+
+	-setQuestions(): void
+	-setActives(): void
+	-setRefresh(): void
+	-setError(): void
+}
+
+Question --* QuestionsScreen: question
+
+class AskQuestionScreen {
+	-actives: number[]
+	-error: string
+	-title: string
+	-body: string
+
+	-submit(): Promise
+
+	-setActives(): void
+	-setError(): void
+	-setTitle(): void
+	-setBody(): void
+}
+
+class Text
+class Chip
+class TextInput
+class Button
+class CompactQuestion
+class CompactAnswer
+class SelectTopics
+class Icon
+class IconButton
+
+Text --* AskQuestionScreen
+TextInput --* AskQuestionScreen
+SelectTopics --* AskQuestionScreen
+Button --* AskQuestionScreen
+
+Text --* QuestionScreen
+Chip --* QuestionScreen
+Button --* QuestionScreen
+CompactAnswer --* QuestionScreen
+
+SelectTopics --* QuestionsScreen
+Button --* QuestionsScreen
+Text --* QuestionsScreen
+CompactQuestion --* QuestionsScreen
+
+Icon --* CompactQuestion
+Text --* CompactQuestion
+Chip --* CompactQuestion
+
+Icon --* CompactAnswer
+Text --* CompactAnswer
+
+IconButton --* SelectTopics
+
+
+@enduml

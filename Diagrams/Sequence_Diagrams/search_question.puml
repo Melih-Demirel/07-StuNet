@@ -1,0 +1,43 @@
+@startuml Search question
+
+title Reference: [UC] Search Question
+
+participant ":QuestionController" as controller
+participant ":UserManager" as manager
+participant GetQuestionDto
+participant ":GetQuestionDto" as getQuestionDto
+participant StringMatcher
+participant ":QuestionRepository" as repository
+
+--> controller: SearchByName(courseId, name)
+activate controller
+
+controller -> repository: GetByCourseIdAsync(courseId)
+activate repository
+repository --> controller: questions
+deactivate repository
+
+controller -> StringMatcher: FuzzyMatchObject(courseDtos, name)
+activate StringMatcher
+StringMatcher --> controller: matches
+deactivate StringMatcher
+
+loop
+    controller -> manager: FindByIdAsync(question.userId)
+    activate manager
+    manager --> controller: user
+    deactivate manager
+
+    controller -> GetQuestionDto: convert(question, user)
+    activate GetQuestionDto
+    GetQuestionDto -> getQuestionDto**: create(question, user)
+    GetQuestionDto --> controller: questionDto
+    deactivate GetQuestionDto
+
+end
+
+<-- controller: ok
+
+deactivate controller
+
+@enduml

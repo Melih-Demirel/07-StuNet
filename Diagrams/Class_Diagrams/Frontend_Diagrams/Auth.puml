@@ -1,0 +1,77 @@
+@startuml Auth
+left to right direction
+
+class Fields {
+	-name: string
+	-degree: string
+}
+
+class Picker
+class Button
+class TextInput
+class PasswordInput
+class Link
+class Text 
+enum User {
+	STUDENT,
+	PROFESSOR
+}
+
+class RegisterScreen {
+	-mail: string
+	-fields: Fields
+	-FOS: [string, number, string]
+	-password: string
+	-passwordConfirm: string
+	-error: string
+
+	-fetch(): Promise
+	-study(): number
+	-type(): User
+	-valid(): boolean
+	-degrees(): string
+	-RegisterScreen(): void
+
+	-setMail(): void
+	-setPassword(): void
+	-setPasswordConfirm(): void
+	-setFOS(): void
+	-setFields(): void
+	-setError(): void
+}
+
+class Theme
+class LoginScreen {
+	-email: string
+	-password: string
+	-error: string
+	-theme: Theme
+
+	-LoginScreen(): void
+	
+	-setToken(): void
+	-setError(): void
+	-setEmail(): void
+	-setPassword(): void
+}
+
+Text --* LoginScreen
+Text --* RegisterScreen
+
+Theme --* LoginScreen
+
+User --* RegisterScreen
+
+TextInput --* LoginScreen
+Button --* LoginScreen
+Link --* LoginScreen
+PasswordInput --* LoginScreen
+PasswordInput --|> TextInput
+
+TextInput --* RegisterScreen
+PasswordInput --* RegisterScreen
+Link --* RegisterScreen
+Button --* RegisterScreen
+Fields --* RegisterScreen: fields
+Picker --* RegisterScreen
+@enduml

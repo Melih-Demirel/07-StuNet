@@ -1,0 +1,39 @@
+@startuml Subscribe course
+
+title Reference: [UC] Subscribe to course
+
+participant ":CourseSubscriptionController" as controller
+participant ":UserManager" as userManager
+participant ":CourseSubscription" as subscription
+participant ":CourseSubscriptionRepository" as repository
+
+-> controller: CreateCourseSubscription(dto.courseId)
+activate controller
+
+alt Valid user
+    controller -> userManager: FindByEmailAsync(userEmail)
+    activate userManager
+    controller <-- userManager: User
+    ' TO-ASK: User|null of gewoon User?
+    deactivate userManager
+
+    controller -> repository: GetAsync(dto.courseId)
+    activate repository
+    repository --> controller: subscibedItem
+    deactivate repository
+    
+    controller -> subscription **: create(DateTime.UtcNow, user.id, subscribedItem)
+
+    controller -> repository: CreateAsync(subscription)
+    activate repository
+    repository --> controller: void
+    deactivate repository
+
+    <-- controller: ok
+else Invalid user
+    <-- controller: unauthorized
+end
+
+deactivate controller
+
+@enduml

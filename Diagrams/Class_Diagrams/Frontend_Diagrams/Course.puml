@@ -1,0 +1,58 @@
+@startuml Course
+
+class TextInput
+class Button
+class Fab
+class CompactChannel
+class Text
+class Icon
+
+Text --* CompactChannel
+Icon --* CompactChannel
+
+
+class CreateCourseScreen {
+	-name: string
+	-number: string
+	-description: string
+	-email: string
+	-error: string
+
+	-setName(): void
+	-setNumber(): void
+	-setDescription(): void
+	-setEmail(): void
+	-setError(): void
+}
+
+class Course
+
+class CourseScreen {
+	-subscribed: number | null
+	-course: Course
+	-error: string
+
+	-owner(): boolean
+	-info(): Promise
+	-subscription(): Promise 
+	-fetch(): Promise
+
+	-setSubscribed(): void
+	-setCourse(): void
+	-setError(): void
+}
+
+Course --* CourseScreen: course
+
+Button --* CourseScreen
+Fab --* CourseScreen
+CompactChannel -r-* CourseScreen
+Text --* CourseScreen
+
+TextInput --* CreateCourseScreen
+Button --* CreateCourseScreen
+Text --* CreateCourseScreen
+
+
+
+@enduml
